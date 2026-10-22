@@ -109,8 +109,32 @@ def interaction_step(env, q_table, state, epsilon, alpha, gamma, rng):
 
     return int(next_state), float(reward), bool(done)
 
-# Step 12 - run_training_episode (not yet solved)
-# TODO: implement
+# Step 12 - run_training_episode
+def run_training_episode(env, q_table, epsilon, alpha, gamma, rng, max_steps=200):
+    # TODO: reset env, then repeatedly call interaction_step until done or max_steps, returning total reward.
+    reset_result = env.reset()
+    state = reset_result[0] if isinstance(reset_result, tuple) else reset_result
+
+    episode_return = 0.0
+
+    for _ in range(max_steps):
+        next_state, reward, done = interaction_step(
+            env,
+            q_table,
+            state,
+            epsilon,
+            alpha,
+            gamma,
+            rng,
+        )
+
+        episode_return += reward
+        state = next_state
+
+        if done:
+            break
+
+    return float(episode_return)
 
 # Step 13 - train_q_learning (not yet solved)
 # TODO: implement
